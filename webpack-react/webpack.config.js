@@ -61,12 +61,23 @@ const config = {
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                [
+                  '@babel/preset-react',
+                  {
+                    runtime: 'automatic',
+                  },
+                ],
+              ],
+            },
+          },
+          'eslint-loader',
+        ],
       }
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
