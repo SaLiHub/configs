@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-
+const ESLintPlugin = require('eslint-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 const stylesHandler = MiniCssExtractPlugin.loader;
 
@@ -36,6 +36,13 @@ const config = {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(),
+      new ESLintPlugin({
+        extensions: ['jsx', 'mjs', 'js'],
+        failOnError: true,
+        fix: false,
+        emitError: true,
+        emitWarning: true,
+      }),
       new TerserPlugin()
     ],
   },
@@ -61,7 +68,7 @@ const config = {
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
-        use: [
+        use: 
           {
             loader: 'babel-loader',
             options: {
@@ -76,8 +83,7 @@ const config = {
               ],
             },
           },
-          'eslint-loader',
-        ],
+        
       }
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
